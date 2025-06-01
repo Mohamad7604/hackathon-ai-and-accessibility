@@ -1,0 +1,132 @@
+/* ────────────────────────────────────────────────────────────────────────── */
+/*   popup.css                                                             */
+/*   Styles for the ReadAble toolbar popup (300×400px max).                */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 320px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  padding: 10px 15px;
+}
+
+.header .icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+}
+
+.header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  background-color: #eeeeee;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 0;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: #eeeeee;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.tab:hover {
+  background-color: #dddddd;
+}
+
+.tab.active {
+  background-color: #ffffff;
+  border-bottom: 2px solid #2b2b2b;
+}
+
+.main-content {
+  padding: 10px 15px;
+  height: calc(100% - 98px);
+  overflow-y: auto;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.control-group {
+  margin-bottom: 12px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.control-group select,
+.control-group input[type="number"] {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.action-button {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #444444;
+}
+
+.info-text {
+  font-size: 12px;
+  color: #666666;
+  margin-top: 4px;
+}
+
+.footer {
+  text-align: center;
+  padding: 6px 0;
+  background-color: #f5f5f5;
+  font-size: 11px;
+  color: #777777;
+  border-top: 1px solid #dddddd;
+}
+
+/* Scrollbar styling (if needed) */
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 3px;
+}

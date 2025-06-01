@@ -1,35 +1,51 @@
 {
-    "manifest_version": 3,
-    "name": "ReadAble",
-    "version": "1.0",
-    "description": "Making websites more readable for users with dyslexia, ADHD, and visual impairments.",
-    "permissions": [
-        "storage",
-        "activeTab"
-    ],
-    "background": {
-        "service_worker": "src/background/background.js"
-    },
-    "action": {
-        "default_popup": "src/popup/popup.html",
-        "default_icon": {
-            "128": "Pictures/readable_icon.jpg"
-        }
-    },
-    "icons": {
-        "128": "Pictures/readable_icon.jpg"
-    },
-    "content_scripts": [
-        {
-            "matches": ["<all_urls>"],
-            "js": [
-                "src/content/textCustomization.js",
-                "src/content/aiSimplification.js",
-                "src/content/textToSpeech.js",
-                "src/content/vocabularyHelper.js"
-            ],
-            "css": ["styles/content.css"]
-        }
-    ],
-    "options_page": "src/options/options.html"
+  "manifest_version": 3,
+  "name": "ReadAble",
+  "version": "1.0",
+  "description": "Making websites more readable for users with dyslexia, ADHD, and visual impairments.",
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+
+  "background": {
+    "service_worker": "dist/background.bundle.js"
+  },
+
+  "action": {
+    "default_popup": "dist/popup.html",
+    "default_icon": {
+      "128": "readable_icon.jpg"
+    }
+  },
+  "icons": {
+    "128": "readable_icon.jpg"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "dist/content.bundle.js",
+        "dist/aiSimplification.bundle.js",
+        "dist/textToSpeech.bundle.js",
+        "dist/vocabularyHelper.bundle.js"
+      ],
+      "css": ["dist/content.css"]
+    }
+  ],
+
+  "options_page": "dist/options.html",
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "dist/fonts/OpenDyslexic-Regular.otf",
+        "dist/fonts/OpenDyslexic-Bold.otf"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

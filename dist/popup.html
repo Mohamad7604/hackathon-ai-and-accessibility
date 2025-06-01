@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>ReadAble</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="header">
+    <img src="../readable_icon.jpg" alt="ReadAble" class="icon" />
+
+    <h1>ReadAble</h1>
+  </header>
+
+  <!-- Tab Buttons -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="simplify">
+      Simplify
+    </button>
+    <button class="tab" data-tab="customize">
+      Customize
+    </button>
+    <button class="tab" data-tab="tts">
+      TTS
+    </button>
+    <button class="tab" data-tab="vocab">
+      Vocabulary
+    </button>
+  </nav>
+
+  <!-- Tab Contents -->
+  <main class="main-content">
+    <!-- ── Simplify Tab ───────────────────────────── -->
+    <section id="simplify" class="tab-content active">
+      <button
+        id="simplify-button"
+        class="action-button"
+      >
+        Simplify Text
+      </button>
+      <p class="info-text">
+        Click to let ReadAble simplify the main article on
+        this page.
+      </p>
+    </section>
+
+    <!-- ── Customize Tab ──────────────────────────── -->
+    <section id="customize" class="tab-content">
+      <div class="control-group">
+        <label for="fontFamily">Font Family:</label>
+        <select id="fontFamily">
+          <option value="Arial">Arial (Default)</option>
+          <option value="OpenDyslexic">
+            OpenDyslexic
+          </option>
+          <option value="Times New Roman">
+            Times New Roman
+          </option>
+          <option value="Verdana">Verdana</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="letterSpacing">
+          Letter Spacing (px):
+        </label>
+        <input
+          type="number"
+          id="letterSpacing"
+          value="0"
+          step="0.1"
+        />
+      </div>
+
+      <div class="control-group">
+        <label for="lineHeight">Line Height:</label>
+        <input
+          type="number"
+          id="lineHeight"
+          value="1.5"
+          step="0.1"
+        />
+      </div>
+
+      <div class="control-group">
+        <label for="theme">Theme:</label>
+        <select id="theme">
+          <option value="default">Default</option>
+          <option value="night">Night</option>
+        </select>
+      </div>
+
+      <button
+        id="save-settings"
+        class="action-button"
+      >
+        Apply Settings
+      </button>
+      <p class="info-text">
+        Adjust the font, spacing, and color theme, then
+        click “Apply.” The page will update immediately.
+      </p>
+    </section>
+
+    <!-- ── Text-to-Speech Tab ─────────────────────── -->
+    <section id="tts" class="tab-content">
+      <button
+        id="tts-button"
+        class="action-button"
+      >
+        Activate Text-to-Speech
+      </button>
+      <p class="info-text">
+        Injects the TTS controls into the page. Use the on-page
+        controls to Play/Pause and adjust rate.
+      </p>
+    </section>
+
+    <!-- ── Vocabulary Tab ────────────────────────── -->
+    <section id="vocab" class="tab-content">
+      <button
+        id="vocabulary-button"
+        class="action-button"
+      >
+        Activate Vocabulary Helper
+      </button>
+      <p class="info-text">
+        Once activated, hover over any text to see definitions.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Version 1.0</small>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

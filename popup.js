@@ -1,102 +1,113 @@
-function initPopup() {
-    const simplifyButton = document.getElementById('simplify-button');
-    const textCustomizationButton = document.getElementById('text-customization-button');
-    const ttsButton = document.getElementById('tts-button');
-    const vocabularyHelperButton = document.getElementById('vocabulary-helper-button');
+// ──────────────────────────────────────────────────────────────────────────
+//   popup.js
+//   Handles tab switching and button clicks in the toolbar popup.
+// ──────────────────────────────────────────────────────────────────────────
 
-    simplifyButton.addEventListener('click', () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                files: ['content/aiSimplification.js']
-            });
-        });
+document.addEventListener("DOMContentLoaded", () => {
+  // Tab switching
+  const tabs = document.querySelectorAll(".tab");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      // Deactivate all tabs/contents
+      tabs.forEach((t) => t.classList.remove("active"));
+      contents.forEach((c) => c.classList.remove("active"));
+
+      // Activate clicked tab & its content
+      tab.classList.add("active");
+      document
+        .getElementById(tab.getAttribute("data-tab"))
+        .classList.add("active");
+    });
+  });
+
+  // ─── Simplify Button ───────────────────────────────
+  document
+    .getElementById("simplify-button")
+    .addEventListener("click", () => {
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        (tabs) => {
+          if (!tabs[0]) return;
+          chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            files: ["dist/aiSimplification.bundle.js"],
+          });
+        }
+      );
+      window.close();
     });
 
-    textCustomizationButton.addEventListener('click', () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                files: ['content/textCustomization.js']
-            });
-        });
+  // ─── Customize (Apply Settings) ────────────────────
+  document
+    .getElementById("save-settings")
+    .addEventListener("click", () => {
+      const font = document.getElementById("fontFamily").value;
+      const letterSpacing = parseFloat(
+        document.getElementById("letterSpacing").value
+      );
+      const lineHeight = parseFloat(
+        document.getElementById("lineHeight").value
+      );
+      const theme = document.getElementById("theme").value;
+
+      const newSettings = {
+        fontFamily: font,
+        letterSpacing: letterSpacing,
+        lineHeight: lineHeight,
+        theme: theme,
+      };
+
+      // Save to chrome.storage, then notify the page
+      chrome.storage.sync.set(newSettings, () => {
+        // Send a message to the active tab’s content script
+        chrome.tabs.query(
+          { active: true, currentWindow: true },
+          (tabs) => {
+            if (!tabs[0]) return;
+            chrome.tabs.sendMessage(
+              tabs[0].id,
+              {
+                type: "updateStyles",
+                settings: newSettings,
+              },
+              () => {
+                // close popup after applying
+                window.close();
+              }
+            );
+          }
+        );
+      });
     });
 
-    ttsButton.addEventListener('click', () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                files: ['content/textToSpeech.js']
-            });
-        });
+  // ─── Text-to-Speech Button ────────────────────────
+  document.getElementById("tts-button").addEventListener("click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (!tabs[0]) return;
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        files: ["dist/textToSpeech.bundle.js"],
+      });
     });
+    window.close();
+  });
 
-    vocabularyHelperButton.addEventListener('click', () => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                files: ['content/vocabularyHelper.js']
-            });
-        });
+  // ─── Vocabulary Helper Button ─────────────────────
+  document
+    .getElementById("vocabulary-button")
+    .addEventListener("click", () => {
+      chrome.tabs.query(
+        { active: true, currentWindow: true },
+        (tabs) => {
+          if (!tabs[0]) return;
+          chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            files: ["dist/vocabularyHelper.bundle.js"],
+          });
+        }
+      );
+      window.close();
     });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    let currentSettings = {
-        fontFamily: 'Arial',
-        letterSpacing: 0,
-        lineHeight: 1.5,
-        theme: 'default'
-    };
-
-    // Load saved preferences
-    chrome.storage.sync.get(currentSettings, (items) => {
-        currentSettings = items;
-        updateUI(currentSettings);
-    });
-
-    function updateUI(settings) {
-        const fontSelect = document.getElementById('fontFamily');
-        const letterSpacingInput = document.getElementById('letterSpacing');
-        const lineHeightInput = document.getElementById('lineHeight');
-
-        fontSelect.value = settings.fontFamily;
-        letterSpacingInput.value = settings.letterSpacing;
-        lineHeightInput.value = settings.lineHeight;
-    }
-
-    // Font family change
-    document.getElementById('fontFamily').addEventListener('change', (e) => {
-        currentSettings.fontFamily = e.target.value;
-        saveAndApplySettings();
-    });
-
-    // Letter spacing change
-    document.getElementById('letterSpacing').addEventListener('input', (e) => {
-        currentSettings.letterSpacing = parseFloat(e.target.value);
-        saveAndApplySettings();
-    });
-
-    // Line height change
-    document.getElementById('lineHeight').addEventListener('input', (e) => {
-        currentSettings.lineHeight = parseFloat(e.target.value);
-        saveAndApplySettings();
-    });
-
-    function saveAndApplySettings() {
-        chrome.storage.sync.set(currentSettings, () => {
-            updatePage(currentSettings);
-        });
-    }
-
-    function updatePage(settings) {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (tabs[0]) {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    type: 'updateStyles',
-                    settings: settings
-                });
-            }
-        });
-    }
 });

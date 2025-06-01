@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>ReadAble Options</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="options-container">
+    <h1>ReadAble Presets</h1>
+
+    <!-- Preset Form -->
+    <form id="preset-form">
+      <label for="preset-name">Preset Name:</label>
+      <input
+        type="text"
+        id="preset-name"
+        name="preset-name"
+        placeholder="e.g. Dyslexia-Friendly"
+        required
+      />
+
+      <label for="font">Font:</label>
+      <select id="font" name="font">
+        <option value="Arial">Arial (Default)</option>
+        <option value="OpenDyslexic">OpenDyslexic</option>
+        <option value="Times New Roman">
+          Times New Roman
+        </option>
+        <option value="Verdana">Verdana</option>
+      </select>
+
+      <label for="bg-color">Background Color:</label>
+      <input
+        type="color"
+        id="bg-color"
+        name="bg-color"
+        value="#ffffff"
+      />
+
+      <label for="text-color">Text Color:</label>
+      <input
+        type="color"
+        id="text-color"
+        name="text-color"
+        value="#000000"
+      />
+
+      <label for="letter-spacing">Letter Spacing:</label>
+      <input
+        type="number"
+        id="letter-spacing"
+        name="letter-spacing"
+        step="0.1"
+        value="0"
+      />
+
+      <label for="line-height">Line Height:</label>
+      <input
+        type="number"
+        id="line-height"
+        name="line-height"
+        step="0.1"
+        value="1.5"
+      />
+
+      <label for="theme-select">Theme:</label>
+      <select id="theme-select" name="theme-select">
+        <option value="default">Default</option>
+        <option value="night">Night</option>
+      </select>
+
+      <button type="submit" id="save-preset">
+        Save Preset
+      </button>
+    </form>
+
+    <!-- List of Saved Presets -->
+    <div id="presets-list">
+      <h2>Your Saved Presets</h2>
+      <ul id="presets-ul"></ul>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
